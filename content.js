@@ -1,31 +1,29 @@
-// This is a sample content script; you need to adapt it to your specific website's structure.
-// Make sure to identify the correct username and password fields, and the submit button.
+// content.js
 
-// Example selectors. Replace these with your actual element IDs or CSS selectors.
-const usernameFieldSelector = '#userNameInput';
-const passwordFieldSelector = '#passwordInput';
-const signInButtonSelector = '#submitButton';
+// Define the username and password variables here
+var username = '';  // Replace with actual username
+var password = '';  // Replace with actual password
 
 // Function to fill the username and password fields
 function fillData() {
-  const usernameField = document.querySelector(usernameFieldSelector);
-  const passwordField = document.querySelector(passwordFieldSelector);
-  
+  var usernameField = document.getElementById('userNameInput');
+  var passwordField = document.getElementById('passwordInput');
+
   if (usernameField) {
-    usernameField.value = 'your_username';
+    usernameField.value = username;
   }
-  
+
   if (passwordField) {
-    passwordField.value = 'your_username';
+    passwordField.value = password;
   }
 }
 
 // Function to submit the form
 function submitData() {
-  const signInButton = document.querySelector(signInButtonSelector);
-  
-  if (signInButton) {
-    signInButton.click();
+  var submitButton = document.getElementById('submitButton');
+
+  if (submitButton) {
+    submitButton.click();
   }
 }
 
