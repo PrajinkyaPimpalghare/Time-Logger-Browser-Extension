@@ -5,13 +5,25 @@
 </head>
 <body>
   <div class="popup">
-    <div class="domain"></div>
-    <div class="username-display">
-      Username: <span id="usernameDisplay"></span>
+    <div class="button-container">
+      <div class="domain"></div>
+      <div class="username-display"></div>
     </div>
     <div class="button-container">
-      <button id="fillButton">Fill</button>
-      <button id="submitButton">Submit</button>
+      <div class="current-date"></div>
+      <div class="filled-time"></div>
+    </div>
+    <div class="button-container">
+      <label for="dateInput">Date:</label>
+      <input type="number" id="dateInput" min="1" max="31">
+      <label><input type="radio" name="location" value="Home">Home</label>
+      <label><input type="radio" name="location" value="Office" value="" checked>Office</label>
+    </div>
+    <br>
+    <br>
+    <div class="button-container">
+      <button class="button" id="fillButton">Fill</button>
+      <button class="button" id="submitButton">Submit</button>
     </div>
   </div>
   <script src="popup.js"></script>

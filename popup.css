@@ -8,12 +8,22 @@
 
 .domain {
   margin-bottom: 10px;
-  color: #333;
+  color: #753dff;
 }
 
 .username-display {
   margin-bottom: 10px;
-  color: #333;
+  color: #753dff;
+}
+
+.current-date {
+  margin-bottom: 10px;
+  color: #753dff;
+}
+
+.filled-time {
+  margin-bottom: 10px;
+  color: #753dff;
 }
 
 .button-container {
@@ -23,14 +33,14 @@
 
 .button {
   padding: 8px 16px;
-  background-color: #f59342;
+  background-color: #753dff; /* Purple color */
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 15px; /* Curved edges */
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
 .button:hover {
-  background-color: #da7c3c;
+  background-color: #0012ff;
 }
