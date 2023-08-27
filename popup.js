@@ -74,11 +74,25 @@ var submitData = function() {
   executeScriptInActiveTab(submitScript);
 };
 
+var cancelData = function() {
+  var cancelScript = `
+    var mainButtons = document.querySelectorAll('[mat-button]');
+    mainButtons.forEach(function(button) {
+      // Check if the button meets certain criteria, such as having a specific class or text
+      var spanElement = button.querySelector('span')
+      if (spanElement && spanElement.textContent == 'CANCEL') {
+        button.click();
+      }
+    });
+  `;
+  executeScriptInActiveTab(cancelScript);
+};
+
 function getDivIdFromTab(tabId, callback) {
   chrome.tabs.executeScript(tabId, { code: `
     var targetDiv = document.querySelector('div.info-div div span'); // Replace 'yourDivId' with the actual id
     var currentDateValue = targetDiv ? targetDiv.innerHTML : null;
-    var userNameValue = 'Prajinkya';
+    var userNameValue = 'DummyUser';
     var targetDiv = document.querySelector('div.info-div div u');
     var loggedHoursValue = targetDiv ? targetDiv.innerHTML : null;
     var result = { currentDate: currentDateValue, userName: userNameValue, loggedHours : loggedHoursValue};
@@ -131,6 +145,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var submitButton = document.getElementById('submitButton');
   submitButton.addEventListener('click', submitData);
 
+  var cancelButton = document.getElementById('cancelButton');
+  cancelButton.addEventListener('click', cancelData);
+
+  var themeToggle = document.getElementById('themeToggle');
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark-theme');
+  });
+
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     var currentTab = tabs[0];
     var domain = new URL(currentTab.url).hostname;
@@ -138,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getDivIdFromTab(currentTab.id, function(values) {
         if (values) {
           console.log("Div ID:", values);
-          document.querySelector('.username-display').textContent = 'User: ' + values.userName;
+          document.querySelector('.username-display').textContent = 'Tool: WTT EXT' //+ values.userName;
           document.querySelector('.current-date').textContent = 'Date: ' + values.currentDate;
           document.querySelector('.filled-time').textContent = 'Logged Hours: ' + values.loggedHours;
         } else {
