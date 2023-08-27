@@ -11,33 +11,29 @@ function executeScriptInActiveTab(scriptText) {
 // Function to update the time log
 function updateTimeLog(workOption = 'Home', startTime = '09:00', endTime = '17:30', addComment = 'Work Log', dateInput = "1") {
   var activeDates = document.querySelectorAll('.e-day')
-  console.log("dateInput:", dateInput);
   activeDates.forEach(eachOption =>{
       if (eachOption.title.includes(" " + dateInput + "," )){
               eachOption.click();
       }
   })
-  var setButton = document.querySelectorAll('owl-date-time-container div div button span')[1]
-  var fromTimeBox = document.querySelector('[data-placeholder="From Time (HH:MM)"]')
-  var fromToBox = document.querySelector('[data-placeholder="To Time (HH:MM)"]')
-  var limitCount = [];
-  //if (fromTimeBox){
-    //fromTimeBox.click()
-  //}
-  //if (fromToBox){
-    //fromToBox.click()
-  //}
-
-  console.log(document.querySelectorAll('button[tabindex="0"]'))
-  var fromTime = document.querySelector("input[formControlName='fromTime']");
-  var toTime = document.querySelector("input[formControlName='toTime']");
-
+  var fromTime = document.querySelector('input[formcontrolname="fromTime"]');
   if (fromTime) {
-    fromTime.value = startTime;
+    fromTime.dispatchEvent(new Event('focus'));
+    setTimeout(function() {
+        fromTime.value = startTime;
+        fromTime.dispatchEvent(new Event('input'));
+        fromTime.dispatchEvent(new Event('change'));
+    }, 1000);
   }
 
+  var toTime = document.querySelector("input[formControlName='toTime']");
   if (toTime) {
-    toTime.value = endTime;
+    toTime.dispatchEvent(new Event('focus'));
+    setTimeout(function() {
+        toTime.value = endTime;
+        toTime.dispatchEvent(new Event('input'));
+        toTime.dispatchEvent(new Event('change'));
+    }, 1000);
   }
 
   var matSelect = document.querySelector('[placeholder="Work Location"]');
@@ -66,10 +62,14 @@ var fillData = function(workOption, startTime, endTime, addComment, dateInput) {
 // Submit data function
 var submitData = function() {
   var submitScript = `
-    var submitButton = document.querySelector('.mat-button-wrapper');
-    if (submitButton) {
-      submitButton.click();
-    }
+    var mainButtons = document.querySelectorAll('[mat-button]');
+    mainButtons.forEach(function(button) {
+      // Check if the button meets certain criteria, such as having a specific class or text
+      var spanElement = button.querySelector('span')
+      if (spanElement && spanElement.textContent == 'SUBMIT') {
+        button.click();
+      }
+    });
   `;
   executeScriptInActiveTab(submitScript);
 };
@@ -114,6 +114,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Call the fillData function with the user input or defaults
     fillData(workOption, startTime, endTime, addComment, dateInput);
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      var currentTab = tabs[0];
+      getDivIdFromTab(currentTab.id, function(values) {
+        if (values) {
+          document.querySelector('.username-display').textContent = 'User: ' + values.userName;
+          document.querySelector('.current-date').textContent = 'Date: ' + values.currentDate;
+          document.querySelector('.filled-time').textContent = 'Logged Hours: ' + values.loggedHours;
+        } else {
+          console.log("Div with ID not found.",values);
+        }
+    });
+    });
   });
 
   var submitButton = document.getElementById('submitButton');
