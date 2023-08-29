@@ -63,13 +63,17 @@ var fillData = function(workOption, startTime, endTime, addComment, dateInput) {
 var submitData = function() {
   var submitScript = `
     var mainButtons = document.querySelectorAll('[mat-button]');
-    mainButtons.forEach(function(button) {
-      // Check if the button meets certain criteria, such as having a specific class or text
+    var submit_button_location = []
+    mainButtons.forEach(function(button,index) {
       var spanElement = button.querySelector('span')
       if (spanElement && spanElement.textContent == 'SUBMIT') {
-        button.click();
+        submit_button_location.push(index)
       }
     });
+    if (submit_button_location.length){
+        // Always Click the last Submit Button to avoid overlap
+        mainButtons[submit_button_location.at(-1)].click()
+    }
   `;
   executeScriptInActiveTab(submitScript);
 };
@@ -132,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var currentTab = tabs[0];
       getDivIdFromTab(currentTab.id, function(values) {
         if (values) {
-          document.querySelector('.username-display').textContent = 'User: ' + values.userName;
+          document.querySelector('.username-display').textContent = 'Tool: WTT EXT' //+ values.userName;
           document.querySelector('.current-date').textContent = 'Date: ' + values.currentDate;
           document.querySelector('.filled-time').textContent = 'Logged Hours: ' + values.loggedHours;
         } else {
