@@ -1,6 +1,7 @@
 # Time Logger Browser Extension
 
 Time Logger Browser Extension is a convenient tool designed to streamline time tracking and logging activities directly from your web browser. It simplifies the process of entering time data and submitting logs, making time management more efficient.
+
 ![alt text](https://github.com/PrajinkyaPimpalghare/Time-Logger-Browser-Extension/blob/main/SampleOutput.png)
 ## Features
 
